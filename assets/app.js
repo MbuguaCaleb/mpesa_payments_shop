@@ -45,6 +45,37 @@ App.products = [
   },
 ]
 
+App.addToCart = (e, id) => {
+  e.preventDefault()
+
+  //Find the Product with that Id and add it to the Cart
+  const product = App.products.find((product) => product.id === id)
+
+  //Our Cart
+
+  //We use localStorage
+  let cart = JSON.parse(localStorage.getItem('cart'))
+  if (cart === null) {
+    cart = []
+  }
+
+  //if we already had the Product in cart
+  let item = cart.find((item) => item.id === id)
+
+  if (item) {
+    item.qty++
+  } else {
+    product.qty = 1
+
+    //add the Product to Cart
+    cart.push(product)
+  }
+
+  localStorage.setItem("cart",JSON.stringify(cart))
+
+  console.log(`product ${product.name} has been added to cart`)
+}
+
 $(() => {
   App.products.forEach((product) => {
     $('#products').append(`
